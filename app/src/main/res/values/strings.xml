@@ -10,4 +10,9 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="ip_title">Enter IP</string>
+    <string name="port_title">Enter Port</string>
+    <string name="connect_title">Connect</string>
+
 </resources>
