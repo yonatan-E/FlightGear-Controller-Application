@@ -12,9 +12,9 @@ import android.view.View
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-abstract class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchListener{
+class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchListener{
 
-    abstract var joystickCallback: JoystickListener
+    lateinit var joystickCallback: JoystickListener
     private var centerX: Float = 0.0f
     private var centerY: Float = 0.0f
     private var baseRadius: Float = 0.0f
@@ -24,25 +24,31 @@ abstract class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchL
     constructor(context: Context) : super(context){
         holder.addCallback(this)
         setOnTouchListener(this)
-        if(context is JoystickListener){
+        if(context is JoystickListener?){
             this.joystickCallback =  context
         }
     }
 
-    constructor(ctx: Context, attrs: AttributeSet) : super(ctx, attrs){
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs){
         holder.addCallback(this)
         setOnTouchListener(this)
+        if(context is JoystickListener?){
+            this.joystickCallback =  context
+        }
     }
 
-    constructor(ctx: Context, attrs: AttributeSet, style: Int) : super(ctx, attrs, style){
+    constructor(context: Context, attrs: AttributeSet, style: Int) : super(context, attrs, style){
         holder.addCallback(this)
         setOnTouchListener(this)
+        if(context is JoystickListener?){
+            this.joystickCallback =  context
+        }
     }
 
     private fun setupDimentions(){
         this.centerX = (width/2).toFloat()
         this.centerY = (height/2).toFloat()
-        this.baseRadius = (Math.min(width, height) / 3).toFloat()
+        this.baseRadius = (Math.min(width, height) / 2.5).toFloat()
         this.hatRadius = (Math.min(width, height) / 5).toFloat()
     }
 
@@ -50,10 +56,10 @@ abstract class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchL
         if(holder.surface.isValid()){
             var canvas = this.holder.lockCanvas()
             var colors = Paint()
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-            colors.setARGB(255, 50, 50 ,50)
+            canvas.drawARGB(255, 255, 255, 255)
+            colors.setARGB(255, 83, 83 ,83)
             canvas.drawCircle(centerX, centerY, baseRadius, colors)
-            colors.setARGB(255, 0, 0, 255)
+            colors.setARGB(255, 0, 0, 0)
             canvas.drawCircle(newX, newY, hatRadius, colors)
             this.holder.unlockCanvasAndPost(canvas)
         }

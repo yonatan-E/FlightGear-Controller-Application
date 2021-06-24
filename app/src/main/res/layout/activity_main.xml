@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    >
 
         <EditText
             android:id="@+id/ip_text"
             style="@style/black_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ip_title"
-            android:gravity="left"
-            />
+            android:hint="@string/ip_title"/>
 
         <EditText
             android:id="@+id/port_text"
@@ -33,6 +27,47 @@
             android:layout_height="wrap_content"
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <com.example.flightgear_controller_application.JoystickView
+                    android:id="@+id/joystick"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="50dp"
+                    />
+
+<!--                <SeekBar-->
+<!--                    android:id="@+id/seekbar1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginTop="-50dp"-->
+<!--                    android:layout_marginBottom="0dp"-->
+<!--                    android:layout_marginRight="30dp"-->
+<!--                    android:layout_marginLeft="30dp"-->
+<!--                    android:progressTint="@android:color/transparent"-->
+<!--                    android:progressDrawable="@drawable/seekbar_style"-->
+<!--                    android:thumb="@drawable/custom_thumb"/>-->
+
+        </LinearLayout>
+
+
+        <SeekBar
+            android:id="@+id/seekbar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-50dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:progressTint="@android:color/transparent"
+            android:progressDrawable="@drawable/seekbar_style"
+            android:thumb="@drawable/custom_thumb"/>
+
+
+</LinearLayout>
