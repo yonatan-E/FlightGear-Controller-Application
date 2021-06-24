@@ -1,3 +1,3 @@
 rootProject.name = "FlightGear-Controller-Application"
 include ':app'
-compile 'io.github.controlwear:virtualjoystick:1.10.1'
+//compile 'io.github.controlwear:virtualjoystick:1.10.1'
