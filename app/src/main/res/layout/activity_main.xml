@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
+    tools:context=".view.MainActivity"
     >
 
         <EditText
@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/port_title" />
+
         <Button
             style="@style/black_button"
             android:text="@string/connect_title"
@@ -33,7 +34,7 @@
             android:orientation="horizontal"
             >
 
-                <com.example.flightgear_controller_application.JoystickView
+                <com.example.flightgear_controller_application.view.JoystickView
                     android:id="@+id/joystick"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

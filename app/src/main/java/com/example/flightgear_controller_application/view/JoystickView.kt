@@ -1,4 +1,4 @@
-package com.example.flightgear_controller_application
+package com.example.flightgear_controller_application.view
 
 import android.content.Context
 import android.graphics.Color
