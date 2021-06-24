@@ -22,13 +22,15 @@ class FlightGearControllerModel : IFlightGearControllerModel {
     }
 
     override suspend fun render() {
-        while (true) {
-            val job = GlobalScope.launch(Dispatchers.IO) {
-                _sock.getOutputStream().write(null)
-            }
+        GlobalScope.launch(Dispatchers.IO) {
+            while (true) {
+                val job = GlobalScope.launch(Dispatchers.IO) {
+                    _sock.getOutputStream().write(null)
+                }
 
-            delay(sendingInterval)
-            job.join()
+                delay(sendingInterval)
+                job.join()
+            }
         }
     }
 
