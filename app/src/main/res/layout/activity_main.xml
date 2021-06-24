@@ -16,7 +16,9 @@
             style="@style/black_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ip_title" />
+            android:hint="@string/ip_title"
+            android:gravity="left"
+            />
 
         <EditText
             android:id="@+id/port_text"
@@ -25,7 +27,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/port_title" />
         <Button
-            style="@style/black_box"
+            style="@style/black_button"
             android:text="@string/connect_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
