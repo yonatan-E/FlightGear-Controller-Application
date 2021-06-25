@@ -52,6 +52,16 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (generalVM.isConnected) {
+            runBlocking {
+                generalVM.disconnectFromFG()
+            }
+        }
+    }
+
     fun onClickConnectionButton(view: View) {
         val ip = findViewById<EditText>(R.id.ip_text).text
         val port = findViewById<EditText>(R.id.port_text).text
@@ -63,6 +73,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         GlobalScope.launch(Dispatchers.Main) {
+
+            if (generalVM.isConnected) {
+                generalVM.disconnectFromFG()
+            }
 
             try {
                 generalVM.connectToFG(ip.toString(), port.toString().toInt())

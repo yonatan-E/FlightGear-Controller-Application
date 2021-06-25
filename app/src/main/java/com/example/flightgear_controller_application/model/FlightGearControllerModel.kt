@@ -31,7 +31,7 @@ class FlightGearControllerModel : IFlightGearControllerModel {
                 val job = GlobalScope.launch(Dispatchers.IO) {
                     stream.write("set /controls/flight/aileron $aileron\r\n".toByteArray())
                     stream.write("set /controls/flight/elevator $elevator\r\n".toByteArray())
-                    stream.write("set /controls/flight/throttle $throttle\r\n".toByteArray())
+                    stream.write("set /controls/engines/current-engine/throttle $throttle\r\n".toByteArray())
                     stream.write("set /controls/flight/rudder $rudder\r\n".toByteArray())
                     stream.flush()
                 }
