@@ -14,5 +14,7 @@
     <string name="ip_title">Enter IP</string>
     <string name="port_title">Enter Port</string>
     <string name="connect_title">Connect</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
