@@ -10,6 +10,7 @@
         <EditText
             android:id="@+id/ip_text"
             style="@style/black_box"
+            android:background="@drawable/textbox_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/ip_title"/>
@@ -17,6 +18,7 @@
         <EditText
             android:id="@+id/port_text"
             style="@style/black_box"
+            android:background="@drawable/textbox_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/port_title" />
@@ -34,27 +36,28 @@
             android:orientation="horizontal"
             >
 
+                <SeekBar
+                    android:id="@+id/seekbar1"
+                    android:rotation="90"
+                    android:layout_width="300dp"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginRight="-80dp"
+                    android:layout_marginLeft="-120dp"
+                    android:progressTint="@android:color/transparent"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:thumb="@drawable/custom_thumb"/>
+
                 <com.example.flightgear_controller_application.view.JoystickView
                     android:id="@+id/joystick"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginBottom="50dp"
                     android:layout_marginTop="50dp"
                     />
-
-<!--                <SeekBar-->
-<!--                    android:id="@+id/seekbar1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="-50dp"-->
-<!--                    android:layout_marginBottom="0dp"-->
-<!--                    android:layout_marginRight="30dp"-->
-<!--                    android:layout_marginLeft="30dp"-->
-<!--                    android:progressTint="@android:color/transparent"-->
-<!--                    android:progressDrawable="@drawable/seekbar_style"-->
-<!--                    android:thumb="@drawable/custom_thumb"/>-->
 
         </LinearLayout>
 
@@ -63,7 +66,7 @@
             android:id="@+id/seekbar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-50dp"
+            android:layout_marginTop="-70dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:progressTint="@android:color/transparent"
