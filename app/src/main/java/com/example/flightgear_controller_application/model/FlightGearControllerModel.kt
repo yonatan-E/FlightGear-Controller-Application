@@ -11,25 +11,29 @@ class FlightGearControllerModel : IFlightGearControllerModel {
 
     private val sendingInterval: Long = 5
 
-    override fun connectToFG(ip: String, port: Int) : Job {
-        return GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                _sock = Socket(ip, port)
-            }
+    override suspend fun connectToFG(ip: String, port: Int) {
+        withContext(Dispatchers.IO) {
+            _sock = Socket(ip, port)
         }
     }
 
-    override fun disconnectFromFG() : Job {
-        return GlobalScope.launch(Dispatchers.IO) {
+    override suspend fun disconnectFromFG() {
+        withContext(Dispatchers.IO) {
             _sock.close()
         }
     }
 
     override fun render() : Job {
         return GlobalScope.launch(Dispatchers.IO) {
+            val stream =  _sock.getOutputStream()
+
             while (true) {
                 val job = GlobalScope.launch(Dispatchers.IO) {
-                    _sock.getOutputStream().write(null)
+                    stream.write("set /controls/flight/aileron $aileron\r\n".toByteArray())
+                    stream.write("set /controls/flight/elevator $elevator\r\n".toByteArray())
+                    stream.write("set /controls/flight/throttle $throttle\r\n".toByteArray())
+                    stream.write("set /controls/flight/rudder $rudder\r\n".toByteArray())
+                    stream.flush()
                 }
 
                 delay(sendingInterval)

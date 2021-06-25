@@ -2,9 +2,9 @@ package com.example.flightgear_controller_application.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.SeekBar
 import android.widget.Toast
 import com.example.flightgear_controller_application.R
 import com.example.flightgear_controller_application.model.FlightGearControllerModel
@@ -31,6 +31,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        findViewById<SeekBar>(R.id.seekbar1).setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                rudderVM.throttle = p1.toFloat()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
+        findViewById<SeekBar>(R.id.seekbar2).setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                rudderVM.rudder = p1.toFloat()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
     }
 
     fun onClickConnectionButton(view: View) {
@@ -46,22 +65,21 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
 
             try {
-                generalVM.connectToFG(ip.toString(), port.toString().toInt()).join()
+                generalVM.connectToFG(ip.toString(), port.toString().toInt())
             }
             catch (e: Exception) {
-                Log.d("Socket", "Falied")
-                Toast.makeText(applicationContext, "Couldn't connect to the host", Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(applicationContext, "Couldn't establish connection with the host", Toast.LENGTH_SHORT).show()
+                }
 
                 return@launch
             }
 
-            try {
-                generalVM.render().join()
+            withContext(Dispatchers.Main) {
                 Toast.makeText(applicationContext, "Connection established\nReady to use", Toast.LENGTH_SHORT).show()
             }
-            catch (e: Exception) {
-                Toast.makeText(applicationContext, "Couldn't interact with the host", Toast.LENGTH_SHORT).show()
-            }
+
+            generalVM.render()
         }
     }
 }

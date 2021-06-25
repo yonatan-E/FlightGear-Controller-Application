@@ -4,8 +4,8 @@ import kotlinx.coroutines.Job
 
 interface IFlightGearControllerModel {
 
-    fun connectToFG(ip: String, port: Int) : Job
-    fun disconnectFromFG() : Job
+    suspend fun connectToFG(ip: String, port: Int)
+    suspend fun disconnectFromFG()
     fun render() : Job
 
     var aileron: Float

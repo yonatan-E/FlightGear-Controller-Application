@@ -6,12 +6,19 @@ import kotlinx.coroutines.Job
 
 class GeneralViewModel(private val fgModel: IFlightGearControllerModel) : ViewModel() {
 
-    fun connectToFG(ip: String, port: Int) : Job {
-        return fgModel.connectToFG(ip, port)
+    var isConnected: Boolean = false
+        private set
+
+    suspend fun connectToFG(ip: String, port: Int) {
+        fgModel.connectToFG(ip, port)
+
+        isConnected = true
     }
 
-    fun disconnectFromFG() : Job {
-        return fgModel.disconnectFromFG()
+    suspend fun disconnectFromFG() {
+        fgModel.disconnectFromFG()
+
+        isConnected = false
     }
 
     fun render() : Job {
