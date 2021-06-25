@@ -1,51 +1,32 @@
 package com.example.flightgear_controller_application.view
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
+import com.example.flightgear_controller_application.viewmodel.RudderViewModel
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchListener{
+class JoystickView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback, View.OnTouchListener {
 
-    lateinit var joystickCallback: JoystickListener
+    private var rudderVM: RudderViewModel
     private var centerX: Float = 0.0f
     private var centerY: Float = 0.0f
     private var baseRadius: Float = 0.0f
     private var hatRadius: Float = 0.0f
 
-
-    constructor(context: Context) : super(context){
+    init {
         holder.addCallback(this)
         setOnTouchListener(this)
-        if(context is JoystickListener?){
-            this.joystickCallback =  context
-        }
+
+        rudderVM = (context as MainActivity).rudderVM
     }
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs){
-        holder.addCallback(this)
-        setOnTouchListener(this)
-        if(context is JoystickListener?){
-            this.joystickCallback =  context
-        }
-    }
-
-    constructor(context: Context, attrs: AttributeSet, style: Int) : super(context, attrs, style){
-        holder.addCallback(this)
-        setOnTouchListener(this)
-        if(context is JoystickListener?){
-            this.joystickCallback =  context
-        }
-    }
-
-    private fun setupDimentions(){
+    private fun setupDimensions(){
         this.centerX = (width/2).toFloat()
         this.centerY = (height/2).toFloat()
         this.baseRadius = (Math.min(width, height) / 2.5).toFloat()
@@ -53,9 +34,10 @@ class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchListener{
     }
 
     private fun drawJoystick(newX: Float, newY: Float){
-        if(holder.surface.isValid()){
-            var canvas = this.holder.lockCanvas()
-            var colors = Paint()
+        if(holder.surface.isValid){
+            val canvas = this.holder.lockCanvas()
+            val colors = Paint()
+
             canvas.drawARGB(255, 255, 255, 255)
             colors.setARGB(255, 83, 83 ,83)
             canvas.drawCircle(centerX, centerY, baseRadius, colors)
@@ -69,26 +51,32 @@ class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchListener{
         if (v != null && event != null) {
             if(v == this){
                 if(event.action != MotionEvent.ACTION_UP) {
-                    var displacement = sqrt(
+                    val displacement = sqrt(
                         (event.x - centerX).toDouble().pow(2.0) + (event.y - centerY).toDouble()
                             .pow(2.0)
                     )
                     if(displacement < baseRadius){
                         drawJoystick(event.x, event.y)
-                        joystickCallback.onJoystickMoved((event.x - centerX)/baseRadius, (event.y - centerY)/baseRadius, id)
+
+                        rudderVM.aileron = (event.x - centerX)/baseRadius
+                        rudderVM.elevator = (event.y - centerY)/baseRadius
                     }
-                    else{
-                        var ratio = baseRadius / displacement
-                        var constrainedX = centerX + (event.x - centerX)*ratio
-                        var constrainedY = centerY + (event.y - centerY)*ratio
+                    else {
+                        val ratio = baseRadius / displacement
+                        val constrainedX = centerX + (event.x - centerX)*ratio
+                        val constrainedY = centerY + (event.y - centerY)*ratio
+
                         drawJoystick(constrainedX.toFloat(), constrainedY.toFloat())
-                        joystickCallback.onJoystickMoved(((constrainedX - centerX)/baseRadius).toFloat(),
-                            ((constrainedY - centerY)/baseRadius).toFloat(), id)
+
+                        rudderVM.aileron = ((constrainedX - centerX)/baseRadius).toFloat()
+                        rudderVM.elevator = ((constrainedY - centerY)/baseRadius).toFloat()
                     }
                 }
-                else{
+                else {
                     drawJoystick(centerX, centerY)
-                    joystickCallback.onJoystickMoved(0.0F, 0.0F, id)
+
+                    rudderVM.aileron = 0F
+                    rudderVM.elevator = 0F
                 }
             }
         }
@@ -96,7 +84,7 @@ class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchListener{
     }
 
     override fun surfaceCreated(holder: SurfaceHolder){
-        setupDimentions()
+        setupDimensions()
         drawJoystick(centerX, centerY)
     }
 
@@ -108,8 +96,4 @@ class JoystickView : SurfaceView, SurfaceHolder.Callback, View.OnTouchListener{
 
     }
 
-}
-
-interface JoystickListener{
-    fun onJoystickMoved(xPercent: Float, yPercent: Float, id: Int)
 }

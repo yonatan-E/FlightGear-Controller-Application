@@ -5,16 +5,16 @@ import com.example.flightgear_controller_application.model.IFlightGearController
 
 class RudderViewModel(private val fgModel: IFlightGearControllerModel) : ViewModel() {
 
-    var aileron: Int
+    var aileron: Float
         get() = fgModel.aileron
         set(value) { fgModel.aileron = value }
-    var elevator: Int
+    var elevator: Float
         get() = fgModel.elevator
         set(value) { fgModel.elevator = value }
-    var throttle: Int
+    var throttle: Float
         get() = fgModel.throttle
         set(value) { fgModel.throttle = value }
-    var rudder: Int
+    var rudder: Float
         get() = fgModel.rudder
         set(value) { fgModel.rudder = value }
 }

@@ -1,6 +1,8 @@
 package com.example.flightgear_controller_application.model
 
+import android.util.Log
 import kotlinx.coroutines.*
+import java.lang.Exception
 import java.net.Socket
 
 class FlightGearControllerModel : IFlightGearControllerModel {
@@ -9,20 +11,22 @@ class FlightGearControllerModel : IFlightGearControllerModel {
 
     private val sendingInterval: Long = 5
 
-    override suspend fun connectToFG(ip: String, port: Int) {
-        withContext(Dispatchers.IO) {
-            _sock = Socket(ip, port)
+    override fun connectToFG(ip: String, port: Int) : Job {
+        return GlobalScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                _sock = Socket(ip, port)
+            }
         }
     }
 
-    override suspend fun disconnectFromFG() {
-        withContext(Dispatchers.IO) {
+    override fun disconnectFromFG() : Job {
+        return GlobalScope.launch(Dispatchers.IO) {
             _sock.close()
         }
     }
 
-    override suspend fun render() {
-        GlobalScope.launch(Dispatchers.IO) {
+    override fun render() : Job {
+        return GlobalScope.launch(Dispatchers.IO) {
             while (true) {
                 val job = GlobalScope.launch(Dispatchers.IO) {
                     _sock.getOutputStream().write(null)
@@ -34,8 +38,8 @@ class FlightGearControllerModel : IFlightGearControllerModel {
         }
     }
 
-    override var aileron: Int = 0
-    override var elevator: Int = 0
-    override var throttle: Int = 0
-    override var rudder: Int = 0
+    override var aileron: Float = 0F
+    override var elevator: Float = 0F
+    override var throttle: Float = 0F
+    override var rudder: Float = 0F
 }

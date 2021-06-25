@@ -2,18 +2,19 @@ package com.example.flightgear_controller_application.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.flightgear_controller_application.model.IFlightGearControllerModel
+import kotlinx.coroutines.Job
 
 class GeneralViewModel(private val fgModel: IFlightGearControllerModel) : ViewModel() {
 
-    suspend fun connectToFG(ip: String, port: Int) {
-        fgModel.connectToFG(ip, port)
+    fun connectToFG(ip: String, port: Int) : Job {
+        return fgModel.connectToFG(ip, port)
     }
 
-    suspend fun disconnectFromFG() {
-        fgModel.disconnectFromFG()
+    fun disconnectFromFG() : Job {
+        return fgModel.disconnectFromFG()
     }
 
-    suspend fun render() {
-        fgModel.render()
+    fun render() : Job {
+        return fgModel.render()
     }
 }
