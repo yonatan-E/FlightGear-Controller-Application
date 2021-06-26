@@ -38,18 +38,21 @@ class FlightGearControllerModel : IFlightGearControllerModel {
                 }
 
                 // launching another coroutine on the IO thread for sending the data
-                val sending = GlobalScope.launch(Dispatchers.IO) {
-                    stream.write("set /controls/flight/aileron $aileron\r\n".toByteArray())
-                    stream.write("set /controls/flight/elevator $elevator\r\n".toByteArray())
-                    stream.write("set /controls/engines/current-engine/throttle $throttle\r\n".toByteArray())
-                    stream.write("set /controls/flight/rudder $rudder\r\n".toByteArray())
-                    stream.flush()
+                val sendingJob = launch(Dispatchers.IO) {
+                    try {
+                        stream.write("set /controls/flight/aileron $aileron\r\n".toByteArray())
+                        stream.write("set /controls/flight/elevator $elevator\r\n".toByteArray())
+                        stream.write("set /controls/engines/current-engine/throttle $throttle\r\n".toByteArray())
+                        stream.write("set /controls/flight/rudder $rudder\r\n".toByteArray())
+                        stream.flush()
+                    }
+                    catch (e: Exception) {}
                 }
 
                 // delaying for the given time interval
                 delay(sendingInterval)
                 // blocking the coroutine until the sending coroutine has finished
-                sending.join()
+                sendingJob.join()
             }
         }
     }
