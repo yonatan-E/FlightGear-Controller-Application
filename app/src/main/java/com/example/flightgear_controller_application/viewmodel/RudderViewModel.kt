@@ -1,11 +1,11 @@
 package com.example.flightgear_controller_application.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.flightgear_controller_application.model.IFlightGearControllerModel
 
 class RudderViewModel(private val fgModel: IFlightGearControllerModel) : ViewModel() {
 
+    // current flight data. when setting throttle and rudder, normalizing the values to the expected range of the flight gear
     var aileron: Float
         get() = fgModel.aileron
         set(value) { fgModel.aileron = value }

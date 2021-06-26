@@ -1,15 +1,11 @@
 package com.example.flightgear_controller_application.model
 
-import android.util.Log
 import kotlinx.coroutines.*
-import java.lang.Exception
 import java.net.Socket
 
 class FlightGearControllerModel : IFlightGearControllerModel {
 
     private lateinit var _sock: Socket
-
-    private val sendingInterval: Long = 5
 
     override suspend fun connectToFG(ip: String, port: Int) {
         withContext(Dispatchers.IO) {
@@ -18,17 +14,31 @@ class FlightGearControllerModel : IFlightGearControllerModel {
     }
 
     override suspend fun disconnectFromFG() {
+        if (!_sock.isConnected) {
+            return
+        }
+
         withContext(Dispatchers.IO) {
             _sock.close()
         }
     }
 
-    override fun render() : Job {
+    override fun isConnected() : Boolean {
+        return _sock.isConnected
+    }
+
+    override fun render(sendingInterval: Long) : Job {
+        // launch a coroutine on the IO thread
         return GlobalScope.launch(Dispatchers.IO) {
             val stream =  _sock.getOutputStream()
 
             while (true) {
-                val job = GlobalScope.launch(Dispatchers.IO) {
+                if (!_sock.isConnected) {
+                    break
+                }
+
+                // launching another coroutine on the IO thread for sending the data
+                val sending = GlobalScope.launch(Dispatchers.IO) {
                     stream.write("set /controls/flight/aileron $aileron\r\n".toByteArray())
                     stream.write("set /controls/flight/elevator $elevator\r\n".toByteArray())
                     stream.write("set /controls/engines/current-engine/throttle $throttle\r\n".toByteArray())
@@ -36,8 +46,10 @@ class FlightGearControllerModel : IFlightGearControllerModel {
                     stream.flush()
                 }
 
+                // delaying for the given time interval
                 delay(sendingInterval)
-                job.join()
+                // blocking the coroutine until the sending coroutine has finished
+                sending.join()
             }
         }
     }
