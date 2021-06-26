@@ -5,7 +5,7 @@ import java.net.Socket
 
 class FlightGearControllerModel : IFlightGearControllerModel {
 
-    private lateinit var _sock: Socket
+    private var _sock: Socket = Socket()
 
     override suspend fun connectToFG(ip: String, port: Int) {
         withContext(Dispatchers.IO) {
