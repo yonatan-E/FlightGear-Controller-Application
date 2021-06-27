@@ -30,7 +30,8 @@ physical device or use an emulator, press 'run' and the app should run on your d
 
 Open *flightgear* on your pc, and enter the *ip* and *port* that the app is using 
 into the corresponding fields in the app.
-Press *connect* and now you can control the plane.
+In flightgear start the plane and click *Cessna C172P -> Autostart*. The plane engines should start.
+Press *connect* in the app and now you can control the plane.
 
 
 Demonstration Video
