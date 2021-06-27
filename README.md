@@ -36,7 +36,7 @@ Press *connect* in the app and now you can control the plane.
 
 Demonstration Video
 ----------------
-https://youtu.be/WXOGnMQklOw
+youtube.com/watch?v=WXOGnMQklOw
 
 Uml Diagram
 ----------------
