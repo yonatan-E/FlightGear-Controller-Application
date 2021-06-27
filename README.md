@@ -9,7 +9,7 @@ The user presses *connect* - and now he can control the airplane in the flightge
 Moving the joystick in the y axis will change the elevator, and moving the joystick in the x axis will change the aileron left and right.
 The user can also adjust the rudder by moving the bottom slider, and the throttle by moving the left slider
   
-![Screenshot](captures/window.png) 
+![Screenshot](screenshot.png) 
   
   
 About the Project Structure
