@@ -40,7 +40,7 @@ https://youtu.be/WXOGnMQklOw
 
 Uml Diagram
 ----------------
-![Screenshot](uml.png)  
+![Screenshot](diag.png)  
   
 
 
